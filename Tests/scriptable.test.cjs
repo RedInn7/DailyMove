@@ -1,11 +1,12 @@
 const { readFileSync } = require("node:fs");
-const { join } = require("node:path");
+const { basename, join } = require("node:path");
 const { runInNewContext } = require("node:vm");
 const test = require("node:test");
 const assert = require("node:assert/strict");
 
 process.env.TZ = "America/Los_Angeles";
-const script = readFileSync(join(__dirname, "../Scriptable/今日练什么.js"), "utf8");
+const scriptPath = join(__dirname, "../Scriptable/健身.js");
+const script = readFileSync(scriptPath, "utf8");
 
 // Scriptable mocks cover its renderer and read-only iCloud art access.
 async function runWidget(date, runsInApp = false, queryParameters = {}, artState = "missing", widgetFamily = "accessoryRectangular") {
@@ -70,7 +71,7 @@ async function runWidget(date, runsInApp = false, queryParameters = {}, artState
     Color, Size: class { constructor(width, height) { this.width = width; this.height = height; } }, SFSymbol: { named: name => ({ image: name }) },
     FileManager: { iCloud: () => files },
     UITable, UITableRow, args: { queryParameters }, config: { runsInApp, widgetFamily },
-    URLScheme: { forRunningScript: () => "scriptable:///run?scriptName=test" },
+    URLScheme: { forRunningScript: () => "scriptable:///run?scriptName=" + encodeURIComponent(basename(scriptPath, ".js")) },
     Script: {
       setWidget(value) { widget = value; events.push("widget"); },
       complete() { events.push("complete"); },
@@ -93,7 +94,9 @@ test("lock screen lists every planned movement in at most three lines", async ()
     const date = new Date(2026, 10, 15 + index, 23, 59);
     const { widget, events } = await runWidget(date);
     assert.deepEqual(events, ["widget", "complete"]);
-    assert.equal(new URL(widget.url).searchParams.get("view"), "today");
+    const destination = new URL(widget.url);
+    assert.equal(destination.searchParams.get("scriptName"), "健身");
+    assert.equal(destination.searchParams.get("view"), "today");
     assert.ok(widget.symbol);
     assert.deepEqual(widget.lines.map(line => line.text), days[index]);
     assert.ok(widget.lines.length <= 3);
@@ -132,6 +135,7 @@ test("a tap opens today's full plan including exercise doses and rests", async (
     const date = new Date(2026, 10, 15 + index, 20);
     const { table, widget, events } = await runWidget(date, true, { view: "today" });
     assert.deepEqual(events, ["widget", "details", "complete"]);
+    assert.match(table.rows[0].title, /^健身 · 周[一二三四五六日] · /);
     assert.ok(table.rows[0].subtitle.includes(duration));
     const exercises = table.rows.filter(row => /^\d+\./.test(row.title));
     assert.deepEqual(exercises.map(row => row.title), names.map((name, i) => (i + 1) + ". " + name));
@@ -177,7 +181,7 @@ test("home widgets show Tuesday's full exercise names in separate high-contrast 
   for (const family of ["small", "medium", "large"]) {
     const { widget } = await runWidget(date, false, {}, "missing", family);
     const [title, ...actions] = widget.lines;
-    assert.match(title.text, /周二/);
+    assert.equal(title.text, "健身 周二 · 背和二头");
     assert.deepEqual(actions.map(line => line.text), expected);
     const background = luminance(widget.backgroundColor);
     for (const line of actions) {
@@ -191,10 +195,13 @@ test("home widgets show Tuesday's full exercise names in separate high-contrast 
 });
 
 test("small home widget allocates one row to every planned movement all week", async () => {
+  const titles = ["周日 · 完全休息", "周一 · 胸肩三头", "周二 · 背和二头", "周三 · 主动恢复", "周四 · 游泳课", "周五 · 私教腿部", "周六 · 腿酸明显→上肢"];
   const counts = [1, 5, 5, 2, 2, 5, 5];
   for (const [weekday, count] of counts.entries()) {
     const date = new Date(2026, 10, 15 + weekday, 9);
     const { widget } = await runWidget(date, false, {}, "missing", "small");
+    assert.equal(widget.lines[0].text, "健身 " + titles[weekday]);
+    assert.equal(widget.lines[0].lineLimit, 1);
     const exerciseRows = widget.lines.slice(1).filter(line => line.font >= 20);
     assert.equal(exerciseRows.length, count);
     assert.ok(exerciseRows.every(line => line.text.trim() && line.lineLimit === 1));

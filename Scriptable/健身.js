@@ -64,6 +64,7 @@ const week = [
       ["悬垂举膝或卷腹", "3 × 10–15", "60 秒"],
     ],
     lockHeading: "周六 · 腿酸明显则练上肢",
+    homeHeading: "周六 · 腿酸明显→上肢",
     adjustment: "周五训练后腿部酸痛明显，跳过硬拉和腿举，改练上肢。",
     notes: ["硬拉使用轻到中等重量，保留约 3 次余力。"],
     strength: true,
@@ -107,20 +108,11 @@ function drawHomeScreen(widget, plan) {
   const lime = new Color("#DDF884");
   widget.backgroundColor = new Color("#152D27");
   widget.setPadding(9, 14, 9, 10);
-  const header = widget.addStack();
-  header.centerAlignContent();
-  header.spacing = 5;
-  const symbol = SFSymbol.named(plan.symbol);
-  if (symbol) {
-    const icon = header.addImage(symbol.image);
-    icon.imageSize = new Size(15, 15);
-    icon.tintColor = lime;
-  }
-  const heading = header.addText(plan.lockHeading || plan.heading);
+  const heading = widget.addText("健身 " + (plan.homeHeading || plan.heading));
   heading.font = Font.boldSystemFont(14);
   heading.textColor = lime;
   heading.lineLimit = 1;
-  heading.minimumScaleFactor = 0.87;
+  heading.minimumScaleFactor = 0.75;
 
   const compact = plan.exercises.length > 2;
   widget.addSpacer(compact ? 4 : 10);
@@ -165,7 +157,7 @@ function addRow(table, title, subtitle, height, titleSize = 16) {
 
 function fillTable(table, today, plan, art) {
   const date = (today.getMonth() + 1) + "月" + today.getDate() + "日";
-  addRow(table, plan.heading, date + " · " + plan.duration + " · " + plan.title.split(" — ")[0], 64, 23);
+  addRow(table, "健身 · " + plan.heading, date + " · " + plan.duration + " · " + plan.title.split(" — ")[0], 64, 23);
   if (art) {
     const banner = new UITableRow();
     banner.height = 148;
