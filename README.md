@@ -1,10 +1,12 @@
-# 今日练什么
+# 健身
 
-点亮 iPhone，就能在锁屏看到今天练哪些动作。主屏幕的小号组件用大字列出动作名称。到了健身房，轻点组件就能查看每个动作做几组、每组做几次、组间休息多久。
+「健身」按星期显示当天的训练计划。点亮 iPhone 就能在锁屏看到动作，主屏幕的小号组件用大字逐行列出动作名称。到了健身房，轻点组件就能查看每个动作做几组、每组做几次、组间休息多久。
 
 ## iPhone 主屏幕真机截图
 
-周二的「背和二头」训练在主屏幕上直接列出五个动作。下图截自 iPhone 镜像，保留了小组件所在的主屏幕局部。
+整屏截图展示训练组件在 iPhone 主屏幕上的位置，局部截图可看清周二的五个动作。两张图均摄于更名前。整屏图已模糊壁纸人脸和通知角标数字，最新卡片标题可在下方七天预览中查看。
+
+<a href="docs/screenshots/iphone-full.png"><img src="docs/screenshots/iphone-full.png" width="300" alt="iPhone 主屏幕整屏真机截图，顶部左侧是周二的训练小组件"></a>
 
 <a href="docs/screenshots/iphone-home.png"><img src="docs/screenshots/iphone-home.png" width="300" alt="iPhone 主屏幕上的周二训练小组件，依次显示高位下拉、坐姿划船、胸托划船、面拉和哑铃弯举"></a>
 
@@ -24,19 +26,23 @@
 
 1. 从 App Store 免费安装并打开一次 [Scriptable](https://apps.apple.com/app/id1405459188)。它负责运行这个小组件，无需开发者账号、自签或开启通知。
 2. 用 Safari [下载脚本和配图（ZIP）](https://github.com/RedInn7/DailyMove/archive/refs/heads/main.zip)。在“文件”App 中进入“下载项”，轻点下载的 ZIP 文件解压。
-3. 打开解压出来的文件夹，再进入里面的 `Scriptable` 文件夹。把 [今日练什么.js](Scriptable/今日练什么.js) 复制到 **iCloud 云盘 → Scriptable**，让脚本直接放在这个目录下。
+3. 打开解压出来的文件夹，再进入里面的 `Scriptable` 文件夹。把 [健身.js](Scriptable/健身.js) 复制到 **iCloud 云盘 → Scriptable**，让脚本直接放在这个目录下。
 4. 如果希望训练详情页显示配图，把整个 [DailyMoveArt 文件夹](Scriptable/DailyMoveArt) 也复制到同一位置，保留文件夹名称。只复制脚本也能查看完整训练计划。
-5. 回到 Scriptable，轻点 **今日练什么**。看到今天的动作和组数，就可以把它放到屏幕上了。
+5. 回到 Scriptable，轻点 **健身**。看到今天的动作和组数，就可以把它放到屏幕上了。
 
 ## 把组件放到屏幕上
 
 ### 主屏幕
 
-长按主屏幕空白处，轻点 **编辑 → 添加小组件**（部分系统显示 **＋**）。搜索 **Scriptable**，选小号方形组件并添加。长按刚添加的组件，选 **编辑小组件**，在 **Script（脚本）** 中选择 **今日练什么**。
+长按主屏幕空白处，轻点 **编辑 → 添加小组件**（部分系统显示 **＋**）。搜索 **Scriptable**，选小号方形组件并添加。长按刚添加的组件，选 **编辑小组件**，在 **Script（脚本）** 中选择 **健身**。
+
+卡片内的标题显示「健身」。卡片下方的系统标签由 iOS 显示为「Scriptable」。[Scriptable 作者关于组件标签的说明](https://talk.automators.fm/t/blank-customisable-widget-labels/10090/2)
+
+已安装旧版「今日练什么」的用户，复制新版脚本后可长按原组件，在 **编辑小组件 → Script** 中改选 **健身**。
 
 ### 锁定屏幕
 
-长按已解锁的锁定屏幕，选 **自定 → 锁定屏幕**。轻点时间下方的小组件区域，选择 **Scriptable** 的矩形组件。关闭组件选择面板后，轻点刚放好的矩形，在 **Script（脚本）** 中选择 **今日练什么**，再轻点 **完成**。
+长按已解锁的锁定屏幕，选 **自定 → 锁定屏幕**。轻点时间下方的小组件区域，选择 **Scriptable** 的矩形组件。关闭组件选择面板后，轻点刚放好的矩形，在 **Script（脚本）** 中选择 **健身**，再轻点 **完成**。
 
 组件按 iPhone 当地日期选择训练。脚本会在次日零点请求刷新，实际更新时间由 iOS 决定。[Scriptable 刷新说明](https://docs.scriptable.app/listwidget/#refreshafterdate)
 
