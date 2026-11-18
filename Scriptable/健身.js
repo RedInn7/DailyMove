@@ -64,7 +64,7 @@ const week = [
       ["悬垂举膝或卷腹", "3 × 10–15", "60 秒"],
     ],
     lockHeading: "周六 · 腿酸明显则练上肢",
-    homeHeading: "周六 · 腿酸明显→上肢",
+    homeHeading: "周六 · 腿很酸→上肢",
     adjustment: "周五训练后腿部酸痛明显，跳过硬拉和腿举，改练上肢。",
     notes: ["硬拉使用轻到中等重量，保留约 3 次余力。"],
     strength: true,
