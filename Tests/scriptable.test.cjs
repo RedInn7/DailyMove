@@ -195,7 +195,7 @@ test("home widgets show Tuesday's full exercise names in separate high-contrast 
 });
 
 test("small home widget allocates one row to every planned movement all week", async () => {
-  const titles = ["周日 · 完全休息", "周一 · 胸肩三头", "周二 · 背和二头", "周三 · 主动恢复", "周四 · 游泳课", "周五 · 私教腿部", "周六 · 腿酸明显→上肢"];
+  const titles = ["周日 · 完全休息", "周一 · 胸肩三头", "周二 · 背和二头", "周三 · 主动恢复", "周四 · 游泳课", "周五 · 私教腿部", "周六 · 腿很酸→上肢"];
   const counts = [1, 5, 5, 2, 2, 5, 5];
   for (const [weekday, count] of counts.entries()) {
     const date = new Date(2026, 10, 15 + weekday, 9);
